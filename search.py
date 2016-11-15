@@ -58,9 +58,20 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def graphSearch(problem,fringe):
-    closed = set()
-    fringe = 
+def graphSearch(problem, fringe):
+    closed = []
+    fringe = util.push(Node(None,problem.getStartState(),None,0))
+        while True:
+            if fringe.isEmpty():
+                return False
+             else: node = fringe.pop(fringe)
+            if problem.isGoalState(problem):
+                 """temp solution"""
+            pass
+
+
+
+def expand(node,problem):
 
 def depthFirstSearch(problem):
     """
@@ -75,19 +86,25 @@ def depthFirstSearch(problem):
     print "Start:", problem.getStartState()
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
+    fringe = util.Stack() correct?
     """
     "*** YOUR CODE HERE ***"
-    print "Start:", problem.getStartState()
-    print "Is the start a goal?", (problem.isGoalState(problem.getStartState()))
-    util.raiseNotDefined()
+    fringe = util.Stack()
+    return graphSearch(problem,fringe)
+
+   """ util.raiseNotDefined()"""
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
+    """Search the shallowest nodes in the search tree first.
+        fringe = util.Queue() priority can be used 2 ,correct?
+    """
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
-    """Search the node of least total cost first."""
+    """Search the node of least total cost first.
+        fringe = util.PriorityQueue() correct?
+    """
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
@@ -102,6 +119,15 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
+class Node:
+
+    "g.. cost?"
+    def __init__(self,parent,state,action,depth):
+        self.parent = parent
+        self.state = state
+        self.action = action
+        self.depth = depth
 
 
 # Abbreviations
