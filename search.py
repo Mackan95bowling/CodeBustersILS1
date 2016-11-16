@@ -60,18 +60,41 @@ def tinyMazeSearch(problem):
 
 def graphSearch(problem, fringe):
     closed = []
-    fringe = util.push(Node(None,problem.getStartState(),None,0))
-        while True:
-            if fringe.isEmpty():
-                return False
-             else: node = fringe.pop(fringe)
-            if problem.isGoalState(problem):
-                 """temp solution"""
-            pass
+    fringe.push(Node(problem.getStartState()))
+    while True:
+        if fringe.isEmpty():
+            return None
+        node = fringe.pop()
+        if problem.isGoalState(node.state):
+            steps = []
+            while node.parent is not None:
+                steps.append(node.action)
+                node = node.parent
+            steps.reverse()
+            return steps
+        if node.state not in closed:
+            closed.append(node.state)
+
+            expands = expand(node, problem)
+            for i in expands:
+               fringe.push(i)
 
 
 
-def expand(node,problem):
+
+
+def expand(node, problem):
+    successors = []
+    succ = problem.getSuccessors(node.state)
+    for t in succ:
+        s = Node()
+        s.parent = node
+        s.action = t[1]
+        s.state = t[0]
+        s.cost = node.cost + t[2]
+        s.depth = node.depth + 1
+        successors.append(s)
+    return successors
 
 def depthFirstSearch(problem):
     """
@@ -90,15 +113,17 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     fringe = util.Stack()
-    return graphSearch(problem,fringe)
+    return graphSearch(problem, fringe)
 
-   """ util.raiseNotDefined()"""
+    util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first.
         fringe = util.Queue() priority can be used 2 ,correct?
     """
     "*** YOUR CODE HERE ***"
+    fringe = util.Queue()
+    return graphSearch(problem,fringe)
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
@@ -122,12 +147,12 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
 class Node:
 
-    "g.. cost?"
-    def __init__(self,parent,state,action,depth):
+    def __init__(self, state = None, parent = None, action = None, depth = 0, cost = 0):
         self.parent = parent
         self.state = state
         self.action = action
         self.depth = depth
+        self.cost = cost
 
 
 # Abbreviations
