@@ -66,12 +66,12 @@ def graphSearch(problem, fringe):
             return None
         node = fringe.pop()
         if problem.isGoalState(node.state):
-            steps = []
+            path = []
             while node.parent is not None:
-                steps.append(node.action)
+                path.append(node.action)
                 node = node.parent
-            steps.reverse()
-            return steps
+            path.reverse()
+            return path
         if node.state not in closed:
             closed.append(node.state)
 
@@ -123,7 +123,7 @@ def breadthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     fringe = util.Queue()
-    return graphSearch(problem,fringe)
+    return graphSearch(problem, fringe)
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
@@ -131,6 +131,14 @@ def uniformCostSearch(problem):
         fringe = util.PriorityQueue() correct?
     """
     "*** YOUR CODE HERE ***"
+
+    def priorityFunction(node):
+
+      # strategy open the cheapest node... cheapest = lowest node.cost
+        return node.cost
+
+    fringe = util.PriorityQueueWithFunction(priorityFunction)
+    return graphSearch(problem, fringe)
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -143,6 +151,11 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+    def aStarPriority(node):
+
+     return node.cost + heuristic(node.state,problem)
+    fringe = util.PriorityQueueWithFunction(aStarPriority)
+    return graphSearch(problem, fringe)
     util.raiseNotDefined()
 
 class Node:
@@ -153,6 +166,7 @@ class Node:
         self.action = action
         self.depth = depth
         self.cost = cost
+
 
 
 # Abbreviations
